@@ -1,0 +1,56 @@
+ Test method AnNoText.Abrechnung.UnitTests.LegalSmartDocumentsTests.StartDocument_ShowDialogIsTrue_GotTemplate threw exception: 
+Moq.MockException: 
+Expected invocation on the mock once, but was 0 times: _ => _.CreateDialogSelectTemplate(It.IsAny<ISmartDocsTemplateGroup>(), It.IsAny<bool>())
+
+Performed invocations:
+
+   Mock<ISmartDocumentsFactory:2> (_):
+   No invocations performed.
+
+
+  Stack Trace: 
+Mock.Verify(Mock mock, LambdaExpression expression, Times times, String failMessage) line 316
+Mock`1.Verify[TResult](Expression`1 expression, Func`1 times) line 840
+LegalSmartDocumentsTests.StartDocument_ShowDialogIsTrue_GotTemplate() line 91
+
+
+--------------------------------------------------------------------------------
+
+ [TestMethod]
+ public void StartDocument_ShowDialogIsTrue_GotTemplate()
+ {
+     // Arrange
+     ObjectFactory objectFactory = ObjectFactory.Init();
+     LegalSmartDocuments legalSmartDocuments = new LegalSmartDocuments();
+
+     var smartDocumentsFactoryMock = new Mock<ISmartDocumentsFactory>();
+     var templateListReaderMock = new Mock<ITemplateListReader>();
+     var dialogSmartDocsSelectTemplateMock = new Mock<IDialogSmartDocsSelectTemplate>();
+     var smartDocsTemplateMock = new Mock<ISmartDocsTemplate>();
+     var dataBuilderMock = new Mock<IDataTreeBuilder>();
+     var smartDocsDataTreeNodeMock = new Mock<ISmartDocsDataTreeNode>();
+     var smartDocumentCreatorMock = new Mock<ISmartDocumentCreator>();
+
+     // Setup mocks
+     smartDocumentsFactoryMock.Setup(_ => _.CreateTemplateListReader(It.IsAny<ISmartDocsConnectionInfo>())).Returns(templateListReaderMock.Object);
+     smartDocumentsFactoryMock.Setup(_ => _.CreateDialogSelectTemplate(It.IsAny<ISmartDocsTemplateGroup>(), It.IsAny<bool>())).Returns(dialogSmartDocsSelectTemplateMock.Object);
+     dataBuilderMock.SetupAllProperties();
+     dataBuilderMock.Setup(_ => _.CreateRootNode()).Returns(smartDocsDataTreeNodeMock.Object);
+     smartDocumentsFactoryMock.SetupGet(_ => _.DataBuilder).Returns(dataBuilderMock.Object);
+     smartDocumentsFactoryMock.Setup(_ => _.CreateDocumentCreator(It.IsAny<ISmartDocsConnectionInfo>())).Returns(smartDocumentCreatorMock.Object);
+     objectFactory.SmartDocumentsFactory = smartDocumentsFactoryMock.Object;
+
+     dialogSmartDocsSelectTemplateMock.Setup(_ => _.ShowDialog()).Returns(true);
+     smartDocsTemplateMock.SetupGet(_ => _.ID).Returns("ID");
+     dialogSmartDocsSelectTemplateMock.SetupGet(_ => _.SelectedTemplate).Returns(smartDocsTemplateMock.Object);
+
+     // Act
+     legalSmartDocuments.StartDocument(null, null);
+
+     // Assert
+     smartDocumentsFactoryMock.Verify(_ => _.CreateDialogSelectTemplate(It.IsAny<ISmartDocsTemplateGroup>(), It.IsAny<bool>()), Times.Once);
+     dialogSmartDocsSelectTemplateMock.VerifyGet(_ => _.SelectedTemplate, Times.Once);
+ }    
+
+
+
