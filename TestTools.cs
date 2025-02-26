@@ -54,8 +54,8 @@ namespace WK.DE.TestFramework
                 //atsystemConfiguration = new ATSystemConfiguration(serverNameTextAnNoText, databaseNameTextAnNoTextSystem, null, null, ConnectionSecurityTypes.TrustedConnection, false, false, false);
                 //officeConfiguration = new OfficeConfiguration("OFFICE", serverNameTextAnNoText, databaseNameTextAnNoTextOffice, null, null);
 
-                atsystemConfiguration = new ATSystemConfiguration("localhost", "ATUT_SYSTEM", null, null, ConnectionSecurityTypes.TrustedConnection, false, false, false);
-                officeConfiguration = new OfficeConfiguration("OFFICE", "localhost", "ATUT_BUSINESSNB", null, null);
+                atsystemConfiguration = new ATSystemConfiguration("localhost\\ANNOTEXT", "ATUT_SYSTEM", null, null, ConnectionSecurityTypes.TrustedConnection, false, false, false);
+                officeConfiguration = new OfficeConfiguration("OFFICE", "localhost\\ANNOTEXT", "ATUT_BUSINESSNB", null, null);
 
                 return new Tuple<ATSystemConfiguration, OfficeConfiguration>(atsystemConfiguration, officeConfiguration);
             }
@@ -63,8 +63,8 @@ namespace WK.DE.TestFramework
             switch (Environment.MachineName)
 			{
                 case "01HW2149893":
-                    atsystemConfiguration = new ATSystemConfiguration(@"localhost", "IntegrationTests_AnNoTextSystem", null, null, ConnectionSecurityTypes.TrustedConnection, false, false, false);
-                    officeConfiguration = new OfficeConfiguration("OFFICE", @"localhost", "IntegrationTests_AnNoTextOffice", null, null);
+                    atsystemConfiguration = new ATSystemConfiguration("localhost\\ANNOTEXT\\ANNOTEXT", "IntegrationTests_AnNoTextSystem", null, null, ConnectionSecurityTypes.TrustedConnection, false, false, false);
+                    officeConfiguration = new OfficeConfiguration("OFFICE", "localhost\\ANNOTEXT\\ANNOTEXT", "IntegrationTests_AnNoTextOffice", null, null);
                     break;
 
                 case "STEPHANGRUN8DA3": //Parallels VM Stephan Grunewald
